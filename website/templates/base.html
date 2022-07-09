@@ -11,12 +11,12 @@
       integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
       crossorigin="anonymous"
     />
-    <title>{% block title %}Home{% endblock %}</title>
+    <title>{% block title %}Control de Gastos{% endblock %}</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">Notas</a>
+        <a class="navbar-brand" href="/">Control de Gastos</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -51,10 +51,11 @@
         </div>
       </div>
     </nav>
-
-    {% with messages = get_flashed_messages(with_categories=true) %} {% if
-    messages %} {% for category, message in messages %} {% if category ==
-    'error' %}
+    <!-- prettier-ignore -->
+    {% with messages = get_flashed_messages(with_categories=true) %} 
+    {% if messages %} 
+    {% for category, message in messages %} 
+    {% if category == 'error' %}
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
       {{ message }}
       <button

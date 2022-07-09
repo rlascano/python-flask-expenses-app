@@ -13,11 +13,16 @@ class Spent(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey(
         'category.id'), nullable=False)
+    category = db.relationship('Category',
+                               backref=db.backref('spents', lazy=True))
 
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(100))
+
+    def __repr__(self):
+        return self.description
 
 
 class User(db.Model, UserMixin):
@@ -25,4 +30,4 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
-    Spents = db.relationship('Spent')
+    spents = db.relationship('Spent')
