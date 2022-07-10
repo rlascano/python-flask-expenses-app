@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 {% block title %}Mis gastos{% endblock %}
 {% block content %}
-<h2 class="mb-3">Agregar Gasto</h2>
+<h2 class="mb-3 mt-3">Agregar Gasto</h2>
 <form action="/create" method="POST">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
   <div class="mb-3">

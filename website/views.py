@@ -35,6 +35,7 @@ def create():
                             category_id=categoria_id, user_id=current_user.id)
         db.session.add(nuevo_gasto)
         db.session.commit()
+        flash("Registro agregado correctamente")
         return redirect(url_for('views.home'))
 
 
@@ -63,6 +64,7 @@ def update(id):
         spent.amount = monto
         db.session.add(spent)
         db.session.commit()
+        flash("Registro editado correctamente")
         return redirect(url_for('views.home'))
 
 
