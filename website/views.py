@@ -14,7 +14,14 @@ def home():
     return render_template('home.html', user=current_user)
 
 
-@views.route('/create', methods=['POST', 'GET'])
+@views.route('/new')
+@login_required
+def new():
+    categories = Category.query.all()
+    return render_template('new.html', user=current_user, categories=categories)
+
+
+@views.route('/create', methods=['POST'])
 @login_required
 def create():
     if request.method == 'POST':
@@ -30,8 +37,33 @@ def create():
         db.session.commit()
         return redirect(url_for('views.home'))
 
-    categories = Category.query.all()
-    return render_template('create.html', user=current_user, categories=categories)
+
+@views.route('/edit/<int:id>')
+@login_required
+def edit(id):
+    spent = Spent.query.get(id)
+    categorias = Category.query.all()
+
+    return render_template('edit.html', spent=spent, user=current_user, categories=categorias)
+
+
+@views.route('/update/<int:id>', methods=['POST'])
+def update(id):
+    spent = Spent.query.get(id)
+    if request.method == 'POST':
+        fecha = datetime.strptime(request.form.get('fecha'), "%Y-%m-%d")
+        descripcion = request.form.get('descripcion')
+        categoria_id = request.form.get('categoria')
+        monto = request.form.get('monto')
+
+        # TODO validar
+        spent.date = fecha
+        spent.description = descripcion
+        spent.category_id = categoria_id
+        spent.amount = monto
+        db.session.add(spent)
+        db.session.commit()
+        return redirect(url_for('views.home'))
 
 
 '''

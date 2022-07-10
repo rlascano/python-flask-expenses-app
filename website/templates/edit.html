@@ -2,12 +2,18 @@
 {% extends "base.html" %}
 {% block title %}Mis gastos{% endblock %}
 {% block content %}
-<h2 class="mb-3">Agregar Gasto</h2>
-<form action="/create" method="POST">
+<h2 class="mb-3 mt-3">Editar Gasto</h2>
+<form action="/update/{{spent.id}}" method="POST">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
   <div class="mb-3">
     <label for="fecha">Fecha</label>
-    <input type="date" name="fecha" id="fecha" class="form-control" />
+    <input
+      type="date"
+      name="fecha"
+      id="fecha"
+      class="form-control"
+      value="{{spent.date.strftime('%Y-%m-%d')}}"
+    />
   </div>
   <div class="mb-3">
     <label for="descripcion">Descripcion</label>
@@ -16,6 +22,7 @@
       name="descripcion"
       id="descripcion"
       class="form-control"
+      value="{{spent.description}}"
     />
   </div>
   <div class="mb-3">
@@ -28,8 +35,13 @@
     >
       <!-- prettier-ignore -->
       {% for category in categories %}
+      {% if spent.category.id == category.id%}
+      <option selected value="{{category.id}}">
+        {{ category.description }}
+      </option>
+      {% else %}
       <option value="{{category.id}}">{{ category.description }}</option>
-      {% endfor %}
+      {% endif %} {% endfor %}
     </select>
   </div>
   <div class="mb-3">
@@ -38,13 +50,14 @@
       type="number"
       name="monto"
       id="monto"
-      value="0"
       step="0.01"
       class="form-control"
+      value="{{spent.amount}}"
     />
   </div>
   <div class="mb-3">
-    <input type="submit" value="Guardar" class="btn btn-primary" />
+    <input type="submit" value="Actualizar" class="btn btn-primary" />
+    <a href="{{url_for('views.home')}}" class="btn btn-secondary">Cancelar</a>
   </div>
 </form>
 {% endblock %}

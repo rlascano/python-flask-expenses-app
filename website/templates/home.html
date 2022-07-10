@@ -3,7 +3,9 @@
 {% block title %}Mis gastos{% endblock %} 
 {% block content %}
 <h2 class="mb-3 mt-3">Mis Gastos</h2>
-<a href="/create" class="btn btn-primary mb-3">Agregar gasto</a>
+<a href="{{url_for('views.new')}}" class="btn btn-primary mb-3"
+  >Agregar gasto</a
+>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -11,6 +13,7 @@
       <th>Descripcion</th>
       <th>Categoria</th>
       <th>Monto</th>
+      <th>Acciones</th>
     </tr>
   </thead>
   <tbody>
@@ -19,7 +22,10 @@
       <td>{{ spent.date.strftime("%d-%m-%Y") }}</td>
       <td>{{ spent.description }}</td>
       <td>{{ spent.category }}</td>
-      <td>{{ spent.amount }}</td>
+      <td>{{ '%.2f'|format(spent.amount) }}</td>
+      <td>
+        <a href="/edit/{{spent.id}}" class="btn btn-info">Editar</a>
+      </td>
     </tr>
     {% endfor %}
   </tbody>
