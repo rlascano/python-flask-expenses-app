@@ -71,3 +71,5 @@ def delete(id):
     spent = Spent.query.get(id)
     db.session.delete(spent)
     db.session.commit()
+    flash('Registro borrado correctamente')
+    return redirect(url_for('views.home'))

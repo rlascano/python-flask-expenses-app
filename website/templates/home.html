@@ -25,11 +25,13 @@
       <td>{{ '%.2f'|format(spent.amount) }}</td>
       <td>
         <a href="/edit/{{spent.id}}" class="btn btn-info">Editar</a>|
-        <form action="{{url_form('views.delete', spent.id}}">
+        <form action="{{url_for('views.delete', id=spent.id)}}" method="POST">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
           <input
             type="submit"
             value="Borrar"
-            onclick="return confirm('¿Seguro desea borrar esta entrada')"
+            onclick="return confirm('¿Seguro desea borrar esta entrada?')"
+            class="btn btn-danger"
           />
         </form>
       </td>
