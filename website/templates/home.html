@@ -24,7 +24,14 @@
       <td>{{ spent.category }}</td>
       <td>{{ '%.2f'|format(spent.amount) }}</td>
       <td>
-        <a href="/edit/{{spent.id}}" class="btn btn-info">Editar</a>
+        <a href="/edit/{{spent.id}}" class="btn btn-info">Editar</a>|
+        <form action="{{url_form('views.delete', spent.id}}">
+          <input
+            type="submit"
+            value="Borrar"
+            onclick="return confirm('¿Seguro desea borrar esta entrada')"
+          />
+        </form>
       </td>
     </tr>
     {% endfor %}
