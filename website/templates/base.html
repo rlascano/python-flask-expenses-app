@@ -13,7 +13,7 @@
     />
     <title>{% block title %}Control de Gastos{% endblock %}</title>
   </head>
-  <body>
+  <body style="background-color: beige">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">Control de Gastos</a>
@@ -45,6 +45,14 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" id="home" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="{{url_for('views.resumen')}}"
+                id="resumen"
+                class="nav-link"
+                >Resumen</a
+              >
             </li>
             {% endif %}
           </ul>

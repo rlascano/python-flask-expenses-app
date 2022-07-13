@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from os import path, getenv
+import os
+from dotenv import load_dotenv
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 
@@ -10,9 +11,11 @@ DB_NAME = "database.db"
 
 
 def create_app():
+    load_dotenv()
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = getenv("SECRET_KEY")
+    app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
     csrf.init_app(app)
 
@@ -38,6 +41,6 @@ def create_app():
 
 
 def create_database(app):
-    if not path.exists('website/' + DB_NAME):
+    if not os.path.exists('website/' + DB_NAME):
         db.create_all(app=app)
         print('Created Database!')

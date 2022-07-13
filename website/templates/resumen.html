@@ -1,0 +1,42 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %}
+{% block title%}Resumen{% endblock %}
+{% block content %}
+<h2 class="mt-3 mb-3">Resumen mensual de gastos</h2>
+<div class="card">
+  <div class="card-body">
+    <div class="card-title">
+      <h3>
+        Gasto total del mes:
+        <span class="badge bg-info"
+          ><strong>${{'%.2f'|format(total)}}</strong></span
+        >
+      </h3>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-3">
+  <div class="card-body">
+    <div class="card-title">
+      <h3 class="mt-3">Gastos por categoria:</h3>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Categoria</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        {% for gasto in gastos_categoria %}
+        <tr>
+          <td>{{gasto[0]}}</td>
+          <td>{{'$%.2f'|format(gasto[1])}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock%}

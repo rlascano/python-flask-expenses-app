@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import login_required, current_user
-from .models import Spent, Category
+from .models import Spent, Category, User
+from sqlalchemy import func
 from . import db
 import json
 from datetime import datetime
@@ -11,7 +12,10 @@ views = Blueprint('views', __name__)
 @views.route('/')
 @login_required
 def home():
-    return render_template('home.html', user=current_user)
+    spents = Spent.query.filter(Spent.user_id == current_user.id)
+    spents = spents.order_by(Spent.date.desc())
+
+    return render_template('home.html', user=current_user, spents=spents)
 
 
 @views.route('/new')
@@ -75,3 +79,14 @@ def delete(id):
     db.session.commit()
     flash('Registro borrado correctamente')
     return redirect(url_for('views.home'))
+
+
+@views.route('/resumen')
+@login_required
+def resumen():
+    total = db.session.query(func.sum(Spent.amount).label('total')).filter(
+        Spent.user_id == current_user.id).first().total
+    gastos_categoria = db.session.query(Category.description, func.sum(Spent.amount)).join(
+        Category).filter(Spent.user_id == current_user.id).group_by(Category.id).all()
+    print(gastos_categoria)
+    return render_template('resumen.html', user=current_user, total=total, gastos_categoria=gastos_categoria)
